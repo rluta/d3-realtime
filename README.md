@@ -16,12 +16,14 @@ To check out the full presentation :
 
 ```  
   git clone https://github.com/rluta/d3-realtime
-``  
+```  
+
   * build the project with maven
 
 ```  
   mvn package vertx:fatJar
-```  
+```
+
   * run the server with Java JVM
 
 ```  
