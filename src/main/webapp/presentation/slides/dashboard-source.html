@@ -1,0 +1,18 @@
+<h2>Dashboard</h2>
+<pre><code style="max-height: 650px">
+function updateDashboard(add,max) {
+
+    for (var i=0; i < add; i++) {
+        var order = genOrder()
+        orders.push(order)
+        if (orders.length > max) orders.shift()
+        var current = counts.get(order.customer) || 0;
+        counts.set(order.customer,Math.round(current+order.price*order.quantity))
+    }
+    total = d3.sum(orders,function (d) {return d.price*d.quantity});
+
+    datatable.update(orders);
+    gauge.update(total);
+    customerBar.update(counts.topN(5));
+}
+</code></pre>

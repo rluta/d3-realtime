@@ -1,0 +1,28 @@
+<h2>Vert.x / Sock.js</h2>
+<pre><code>
+    var eb = new vertx.EventBus(config.hostUrl);
+
+    eb.onopen = function() {
+
+        eb.registerHandler('action', function (message) {
+            state.queue.push(message);
+            state.display.push(message);
+            if (message.answer) {
+                state.counts.set(message.answer, (state.counts.get(message.answer) || 0) + 1);
+            }
+            if (state.queue.length > config.discard) {
+                state.queue.shift();
+                state.lost += 1;
+            }
+        });
+
+        eb.send('quizz', {action: 'find'},
+            function(reply) {
+            state.quizz = reply;
+        });
+
+        eb.onclose = function() {
+            state.eb = null;
+        };
+    }
+</code></pre>

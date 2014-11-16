@@ -1,0 +1,29 @@
+<h2>Web workers - code example</h2>
+
+<h4>Main code</h4>
+<pre><code>
+    var worker = new Worker('js/data-collector.js');
+    worker.addEventListener('message',function(event) {
+        gauge.update(event.data);
+    },false);
+    worker.postMessage('start');
+</code></pre>
+<h4>Data collector</h4>
+<pre><code>
+    var ws, queue = [], maxSize = 1000;
+
+    function countAndSend(){
+        var count = queue.splice(0,queue.length).reduce(function (prev,d) { return prev+d.price },0);
+        postMessage(count);
+    }
+    self.addEventListener('message',function (evt) {
+        if (evt.data == 'start') {
+            ws = new WebSocket('ws://myserver/shopping-info')
+        }
+        ws.onmessage = function (evt) {
+            queue.push(evt.data);
+            if (queue.length > maxSize) queue.shift()
+        }
+        setInterval(countAndSend,1000);
+    },false);
+</code></pre>

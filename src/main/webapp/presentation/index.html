@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+
+    <title>Real-time visualizations with D3.js</title>
+
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <link rel="stylesheet" href="css/reveal.min.css">
+
+    <link rel="stylesheet" href="css/theme/default.css" id="theme">
+    <link rel="stylesheet" href="css/bootstrap.min.css" >
+    <link rel="stylesheet" href="css/bootstrap-theme.min.css" >
+    <link rel="stylesheet" href="css/jquery.slidepanel.css" >
+
+    <!-- For syntax highlighting -->
+    <link rel="stylesheet" href="lib/css/zenburn.css" id="highlight-theme">
+
+    <style>
+        strong {
+            color: #ff6000
+        }
+    </style>
+    <!-- If the query includes 'print-pdf', use the PDF print sheet -->
+    <script>
+        if( window.location.search.match( /print-pdf/gi ) ) {
+            var link = document.createElement( 'link' );
+            link.rel = 'stylesheet';
+            link.type = 'text/css';
+            link.href = 'css/print/pdf.css';
+            document.getElementsByTagName( 'head' )[0].appendChild( link );
+        }
+    </script>
+</head>
+
+<body>
+
+<div class="reveal">
+
+    <div class="slides">
+
+        <section data-html="slides/index.html"></section>
+        <section data-background="img/super_power.jpg" data-html="slides/realtime.html"></section>
+        <section data-background="img/noc_dashboard.jpg" data-html="slides/intro.html"></section>
+        <section data-html="slides/definition.html"></section>
+        <section>
+            <section data-js="js/slides/barchart.js" data-html="slides/my-first-chart.html"></section>
+            <section data-html="slides/bar-chart-source.html"></section>
+            <section data-html="slides/bar-refresh-source.html"></section>
+        </section>
+        <section>
+            <section data-js="js/slides/dashboard.js" data-html="slides/dashboard.html"></section>
+            <section data-html="slides/gauge-source.html"></section>
+            <section data-html="slides/datatable-source.html"></section>
+            <section data-html="slides/dashboard-source.html"></section>
+        </section>
+        <section data-html="slides/level-up-catman.html"></section>
+        <section data-html="slides/data-pipelines.html"></section>
+        <section>
+            <section data-html="slides/d3-xhr.html"></section>
+            <section data-html="slides/xhr-howto.html"></section>
+            <section data-html="slides/xhr-limits.html"></section>
+        </section>
+        <section>
+            <section data-html="slides/plumbing-with-websockets.html"></section>
+            <section data-html="slides/ws-code.html"></section>
+            <section data-html="slides/vertx-code.html"></section>
+        </section>
+        <section>
+            <section data-js="js/slides/vote.js" data-html="slides/ws-example.html"></section>
+        </section>
+        <section data-background="img/batman-arkham-origins.jpg" data-html="slides/level-up-batman.html"></section>
+        <section data-background="img/firehose.jpg" data-html="slides/firehose.html"></section>
+        <section>
+            <section data-html="slides/dealing-with-load.html"></section>
+            <section data-html="slides/web-workers.html"></section>
+            <section data-html="slides/web-workers-code.html"></section>
+            <section data-html="slides/eventbatching.html"></section>
+            <section data-html="slides/back-pressure.html"></section>
+            <section data-html="slides/back-pressure-examples.html"></section>
+            <section data-html="slides/back-pressure-worker.html"></section>
+        </section>
+        <section  data-js="js/slides/full-vote.js" data-html="slides/ws-worker-example.html"></section>
+        <section data-background="img/kryptonite-lego.jpg" data-html="slides/kryptonite.html"></section>
+        <section data-html="slides/memory-limits.html"></section>
+        <section data-html="slides/epochjs.html"></section>
+        <section data-html="slides/mario-award.html"></section>
+        <section data-html="slides/questions.html"></section>
+        <section data-html="slides/credits.html"></section>
+    </div>
+</div>
+
+<script src="lib/js/head.min.js"></script>
+<script src="js/reveal.min.js"></script>
+<script src="js/sockjs-min-0.3.4.js"></script>
+<script src="js/vertxbus.js"></script>
+<script src="js/d3.min.js"></script>
+<script src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/bootstrap.min.js"></script>
+<script type="text/javascript" src="js/jquery.slidepanel.js"></script>
+<script type="text/javascript" src="js/charts/d3chart.js"></script>
+<script type="text/javascript" src="js/charts/barChart.js"></script>
+<script type="text/javascript" src="js/charts/horizontalbarChart.js"></script>
+<script type="text/javascript" src="js/charts/gauge.js"></script>
+<script type="text/javascript" src="js/charts/datatable.js"></script>
+
+<script>
+    function actionToggle() {
+        var current = Reveal.getCurrentSlide();
+        $(current).trigger('action');
+    }
+
+    function isGithub() {
+        return (window.location.href.match('github.io/rluta') != null)
+                || (window.location.search.match('github') != null)
+    }
+
+    // Configure Reveal
+    // Full list of configuration options available here:
+    // https://github.com/hakimel/reveal.js#configuration
+    Reveal.initialize({
+        controls: true,
+        progress: true,
+        history: true,
+        center: true,
+
+        width: 1280,
+        height: 800,
+
+        theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+        transition: Reveal.getQueryHash().transition || 'linear', // default/cube/page/concave/zoom/linear/fade/none
+
+        // Optional libraries used to extend on reveal.js
+        dependencies: [
+            { src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+            { src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+            { src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+            { src: 'js/loadhtmlslides.js', condition: function() { return !!document.querySelector( '[data-html]' ); } }
+        ]
+    });
+    Reveal.addEventListener( 'ready', function( event ) {
+        Reveal.configure({
+            keyboard: {
+                60: actionToggle,
+                62: actionToggle,
+                32: actionToggle
+            }
+        });
+    } );
+</script>
+
+</body>
+
+</html>

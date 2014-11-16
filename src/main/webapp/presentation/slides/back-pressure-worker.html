@@ -1,0 +1,27 @@
+<h2>Back pressure</h2>
+<br />
+<h3>Worker code</h3>
+<pre><code>
+state.eb.registerHandler('votes', function (message) {
+    state.queue.push(message);
+    state.display.push(message);
+    if (state.display.length > 5)
+        state.display.shift();
+    if (message.answer) {
+        state.counts.set(message.answer, (state.counts.get(message.answer) || 0) + 1);
+        state.total += 1;
+    }
+    if (state.queue.length > config.discard) {
+        state.queue.shift();
+        state.lost += 1;
+        state.eb.send('control','pause', function (reply) {
+            state.onHold = true;
+        })
+    }
+    if (onHold && state.queue.length < config.discard/2) {
+        state.eb.send('control','resume', function (reply) {
+            state.onHold = true;
+        })
+    }
+});
+</code></pre>
