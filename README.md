@@ -1,4 +1,4 @@
-## Realtime Visulization in D3.js
+# Realtime Visulization in D3.js
  
 This presentation is available in 2 versions :
 
@@ -8,7 +8,7 @@ This presentation is available in 2 versions :
 To interact with the different chart slides, use the *spacebar* to activate the side panels 
 and/or start/stop the interaction.
 
-# Running the vert.x server
+## Running the vert.x server
 
 You can retrieve the latest compiled binary from the project release tab https://github.com/rluta/d3-realtime/releases
 Once the jar is downloaded, you run it with a Java 8 JVM:
@@ -24,7 +24,7 @@ Default configuration for the server is the following:
    * Main presentation is runnning on http://localhost:4242
    * Vote companion app is running on port 8080 all on your local computer interfaces
 
-# Compiling the vert.x server
+## Compiling the vert.x server
 
 To compile the full presentation : 
 
