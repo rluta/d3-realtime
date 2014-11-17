@@ -1,4 +1,4 @@
-# Realtime Visulization in D3.js
+# Real-time Visualizations in D3.js
  
 This presentation is available in 2 versions :
 
