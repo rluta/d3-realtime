@@ -5,12 +5,28 @@ This presentation is available in 2 versions :
   * stand-alone, directly on https://rluta.github.io/d3-realtime with some limited functionality
   * with a local vert.x server, enabling the complete demos
   
-To interact with the different chart slides, use the spacebar to activate the side panels 
+To interact with the different chart slides, use the *spacebar* to activate the side panels 
 and/or start/stop the interaction.
 
-# Compiling and starting the vert.x server
+# Running the vert.x server
 
-To check out the full presentation : 
+You can retrieve the latest compiled binary from the project release tab https://github.com/rluta/d3-realtime/releases
+Once the jar is downloaded, you run it with a Java 8 JVM:
+
+```  
+  java -jar d3-realtime-1.0.0-fat.jar
+```  
+
+On startup, it will try to download some non packaged public modules, so java must be able to access Internet (or you need to give proxy correct settings to the JVM)
+
+Default configuration for the server is the following:
+
+   * Main presentation is runnning on http://localhost:4242
+   * Vote companion app is running on port 8080 all on your local computer interfaces
+
+# Compiling the vert.x server
+
+To compile the full presentation : 
 
   * clone the repository from GitHub
 
@@ -24,12 +40,4 @@ To check out the full presentation :
   mvn package vertx:fatJar
 ```
 
-  * run the server with Java JVM
-
-```  
-  java -jar target/d3-realtime-1.0.0-fat.jar
-```  
-
-Once the server is started, the main presentation is available on http://localhost:4242
-
-The voting companion webapp is available on http://yourcomputerip:8080
+  * run the server with a Java JVM like described in the *Running the vert.x server* chapter
