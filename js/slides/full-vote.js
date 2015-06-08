@@ -12,16 +12,11 @@
         lost: 0,
         rates: {1:0,60:0,600:0},
         running: false,
+        init: false,
         dirty: true
     };
 
-    // if we're in github mode use a local vote generator worker
-    // else use the vert.x implementation
-    if (window.isGithub()) {
-        worker = new Worker('js/slides/standalone-vote-worker.js')
-    } else  {
-        worker = new Worker('js/slides/vertx-vote-worker.js')
-    }
+    worker = new Worker('js/slides/worker-common.js')
 
     worker.addEventListener('message',function (msg) {
         if (msg.data.type == 'state') {
@@ -82,23 +77,46 @@
     };
 
     $(mySection).on('start', function (evt,args) {
-        if (args.rate != null) {
-            worker.postMessage({type:'rate',data: args.rate});
+        if (!state.init)  {
+            worker.postMessage({type:'init',data: args});
+            state.init = true;
         }
+        if (args.rate) worker.postMessage({type:'rate',data: args.rate});
         state.running=true;
         worker.postMessage({type: 'start'});
         updater();
     });
 
-    $(mySection).on('stop', function (evt) {
+    $(mySection).on('stop', function (evt, args) {
+        if (!state.init)  {
+            worker.postMessage({type:'init',data: args});
+            state.init = true;
+        }
         worker.postMessage({type:'stop'});
         state.running=false;
     });
 
+    $(mySection).on('reset', function (evt, args) {
+        worker.postMessage({type:'stop'});
+        state = {
+            counts: [],
+            display: [],
+            total: 0,
+            lost: 0,
+            rates: {1:0,60:0,600:0},
+            running: false,
+            init: false,
+            dirty: true
+        };
+        updateDashboard()
+    });
+
     $(mySection).on('update', function (evt,args) {
-        if (args.rate != null) {
-            worker.postMessage({type:'rate',data: args.rate});
+        if (!state.init) {
+            worker.postMessage({type:'init',data: args});
+            state.init = true;
         }
+        worker.postMessage({type:'rate',data: args.rate});
     });
 
     $(mySection).on('action', function () {
@@ -106,9 +124,7 @@
     });
 
     $('[data-slidepanel]',mySection).slidepanel({
-        orientation: 'right',
+        orientation: 'bottom',
         mode: 'overlay' // overlay or push
     });
-
-    worker.postMessage({type:'init'});
 })();

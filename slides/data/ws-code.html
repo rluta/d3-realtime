@@ -1,0 +1,26 @@
+<h2 style="margin-bottom: 1em">WebSocket</h2>
+<pre><code class="js"  style="min-height: 600px">
+    var socket = new WebSocket("ws://localhost:4242/eventbus");
+
+    socket.onmessage = function(event) {
+        data.push(event.data);
+        chart.update(data);
+    }
+    socket.onopen = function(event) {
+        alert("Web Socket opened!");
+    };
+    socket.onclose = function(event) {
+        alert("Web Socket closed.");
+    };
+
+    function send(message) {
+        if (!window.WebSocket) {
+            return;
+        }
+        if (socket.readyState == WebSocket.OPEN) {
+            socket.send(message);
+        } else {
+            alert("The socket is not open.");
+        }
+    }
+</code></pre>

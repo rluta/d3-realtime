@@ -1,5 +1,5 @@
 ;(function ( $, window, document, undefined ) {
-    
+
     var defaults = {
         orientation: 'left',
         mode: 'push',
@@ -15,12 +15,12 @@
     }
 
     Slidepanel.prototype.init = function () {
-        
+
         var base = this;
 
         if($('#slidepanel').length == 0){
             var panel_html = '<div id="slidepanel" class="cb_slide_panel"><div class="wrapper"><a href="#" class="close">Close</a><div class="inner"><div class="wrapper"></div></div></div></div>';
-            $(panel_html).hide().appendTo($('body'));    
+            $(panel_html).hide().appendTo($('body'));
         }
 
         this.$panel = $('#slidepanel');
@@ -29,11 +29,11 @@
 
         //hide the panel and set orientation class for display
         this.$panel.hide().addClass('panel_' + this.options.orientation);
-        
+
         //set current trigger link to false for the current panel
         this.$panel.data('slidepanel-current', false);
         this.$panel.data('slidepanel-loaded', false);
-        
+
 
         //reset any defined a positions
         this.$panel.css('left', '').css('right', '').css('top', '').css('bottom', '');
@@ -52,7 +52,8 @@
         if(this.options.orientation == 'top' || this.options.orientation == 'bottom') {
             var options = {};
             options['left'] = 0;
-            options[this.options.orientation] = -this.$panel.height();
+            //options[this.options.orientation] = this.$panel.height()-this.$panel.height();
+            options[this.options.orientation] = 1;
             this.$panel.css(options);
         }
 
@@ -60,13 +61,13 @@
         //and panel display to any elements that have the attribute rel="panel"
         $(this.$element).on('click', function(e) {
             e.preventDefault();
-             
+
             //if the request mode is static
-            if(base.options.static) { 
+            if(base.options.static) {
                 //show the panel
                 base.expand();
             }
-            // if the reques mode is ajax 
+            // if the reques mode is ajax
             else {
                 //load the external html
                 base.load();
@@ -78,7 +79,7 @@
             e.preventDefault();
             base.collapse();
         });
-        
+
     };
 
     Slidepanel.prototype.load = function() {
@@ -123,18 +124,18 @@
         panel_options.visible = 'show';
         panel_options[this.options.orientation] = 0;
         body_options[this.options.orientation] = (this.options.orientation == 'top' || this.options.orientation == 'bottom') ? this.$panel.height() : this.$panel.width();
-        
+
         //if the animation mode is set to push, we move the body in relation to the panel
         //else the panel is overlayed on top of the body
         if(this.options.mode == 'push'){
             //animate the body position in relation to the panel dimensions
-            this.$body.css('position', 'absolute').animate(body_options, 250);
+            this.$body.css('position', 'absolute').animate(body_options, 50);
         }
 
         //animate the panel into view
-        this.$panel.addClass('loading').animate(panel_options, 250, function() {
+        this.$panel.addClass('loading').animate(panel_options, 50, function() {
             //show the panel's close button
-            $('.close', base.$panel).fadeIn(250);
+            $('.close', base.$panel).fadeIn(50);
         });
     };
 
@@ -148,13 +149,13 @@
         panel_options.visible = 'hide';
         panel_options[this.options.orientation] = -(this.$panel.width() + 40);
         body_options[this.options.orientation] = 0;
-        
+
         //if the animation mode is push, move the document body back to it's original position
         if(this.options.mode == 'push'){
-            this.$body.css('position', this.$body_position).animate(body_options, 250);
+            this.$body.css('position', this.$body_position).animate(body_options, 50);
         }
         //animate the panel out of view
-        this.$panel.animate(panel_options, 250).data('slidepanel-current', false);
+        this.$panel.animate(panel_options, 50).data('slidepanel-current', false);
     };
 
     $.fn['slidepanel'] = function ( options ) {

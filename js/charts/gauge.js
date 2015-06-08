@@ -18,7 +18,8 @@ var Gauge = function (selector,options) {
         transition: 750,
         // label options
         ticks: 5,
-        labelFormat: d3.format('g'),
+        labelFormat: d3.format('d'),
+        valueFormat: d3.format('d'),
         labelMargin: 10
     },options);
 
@@ -51,7 +52,6 @@ var Gauge = function (selector,options) {
     var pointerHeadLength =  Math.round(radius * this.options('pointerHeadLengthPercent'));
     var pointer = undefined;
     var value = undefined;
-    var valueFormat = d3.format('.2f');
 
     // caclulate the pointer angle based on data value
     function angle(d) {
@@ -123,7 +123,7 @@ var Gauge = function (selector,options) {
         pointer.transition().duration(duration)
             .attr('transform', 'rotate(' +angle(data) +')');
 
-        value.text(valueFormat(data));
+        value.text(this.options('valueFormat')(data));
 
     };
 

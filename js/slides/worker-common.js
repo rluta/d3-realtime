@@ -1,4 +1,11 @@
+window = document = this;
+importScripts('../sockjs-min-0.3.4.js');
+importScripts('../vertxbus.js');
+importScripts('standalone-vote-worker.js');
+importScripts('vertx-vote-worker.js');
+
 var config = {
+    type: 'VertxVoter', // VertxVoter or StandaloneVoter
     hostUrl:  'http://127.0.0.1:4242/eventbus', // default vertx URL
     displayVotes: 7, // number of votes to report for display
     maxQueueLength: 10000, // if more than max, discard events and record them as lost
@@ -6,10 +13,11 @@ var config = {
     lowwaterPercent: 0.50, // if % of queue is reached, ask generator to throttle up
     rates: [ 1, 60, 600], // compute arrival rates per sec, min and 10 min
     reportTimer: 10, // by default, report every 20ms (so about 50 per second)
-    quizzUrl: '../../quizzdata.json', // for standalone, get the quizz answers
+    quizzUrl: '/quizzdata.json', // for standalone, get the quizz answers
     genInterval: 20  // for standalone, vote generation interval
 };
 
+var voter = null;
 var state;
 var lastTotal = 0;
 var running = false;
@@ -70,6 +78,7 @@ function initBuckets() {
         }
     }
 }
+
 function updateRates(count) {
     for (var idx in config.rates) {
         if (config.rates.hasOwnProperty(idx)) {
@@ -103,17 +112,22 @@ self.addEventListener('message',function (event) {
             }
             reset();
         }
-        init();
+
+        if (config.type == 'StandaloneVoter')
+            voter = new StandaloneVoter()
+        else
+            voter = new VertxVoter()
+        voter.init();
     }
 
     if (message.type == 'start') {
-        start();
+        voter.start();
         running = true;
         timerId = setInterval(report, config.reportTimer);
     }
 
     if (message.type == 'stop')  {
-        stop();
+        voter.stop();
         running = false;
         if (timerId > 0) {
             clearInterval(timerId);
@@ -122,7 +136,7 @@ self.addEventListener('message',function (event) {
     }
 
     if (message.type == 'rate')  {
-        updateRate(message.data)
+        voter.updateRate(message.data)
     }
 
 },false);

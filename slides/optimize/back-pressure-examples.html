@@ -1,0 +1,53 @@
+<h2>Back Pressure - Example</h2>
+
+<ul class="nav nav-tabs">
+    <li class="active"><a class="tab-pane" data-toggle="tab" href="#ui">UI Code</a></li>
+    <li><a class="tab-pane" data-toggle="tab" href="#worker">Worker Code</a></li>
+</ul>
+<div class="tab-content">
+    <div id="ui" class="tab-pane active">
+        <pre style="height: auto;font-size: 3rem;"><code class="js" style="height: 30em;">var lastRun = Date.now(), onHold = false;
+
+function refreshChart(timestamp) {
+    window.requestAnimationFrame(refreshChart);
+    if (timestamp - lastRun > 40) {
+        worker.postMessage('hold');
+        onHold = true;
+    } else if (onHold) {
+        worker.postMessage('resume');
+    }
+    lastRun = timestamp;
+    chart.update(data);
+};</code></pre>
+    </div>
+    <div id="worker" class="tab-pane">
+<pre style="height: auto; font-size: 3rem;"><code class="js"  style="height: 30em; ">state.eb.registerHandler('votes', function (message) {
+
+    state.queue.push(message);
+    state.display.push(message);
+
+    if (state.display.length > 5)
+        state.display.shift();
+
+    if (message.answer) {
+        state.counts.set(message.answer,
+            (state.counts.get(message.answer) || 0) + 1);
+        state.total += 1;
+    }
+
+    if (state.queue.length > config.discard) {
+        state.queue.shift();
+        state.lost += 1;
+        state.eb.send('control','pause', function (reply) {
+            state.onHold = true;
+        })
+    }
+
+    if (onHold && state.queue.length < config.discard * 0.8) {
+        state.eb.send('control','resume', function (reply) {
+            state.onHold = false;
+        })
+    }
+});</code></pre>
+    </div>
+</div>

@@ -6,6 +6,7 @@ var gauge = new Gauge($('div.d3chart',mySection).get(0),{
     width: 500,
     valueRange:[0,5000],
     arcWidth: 60,
+    valueFormat: function (d) { return Math.round(d);},
     arcColorFn: d3.scale.ordinal().range(['#ff0000','#f0d023','#f0d023','#f0d023','#00ff60'])
 });
 
@@ -66,7 +67,7 @@ function genOrder() {
         'boots',
         'shirts',
         'jacket',
-        'tool belt',
+        'toolbelt',
         'glove',
         'briefs',
         'shorts',
@@ -103,7 +104,10 @@ function genOrder() {
         'Storm',
         'Colossus',
         'Dr Strange',
+        'Dr Doom',
+        'Magneto',
         'Pr Xavier',
+        'Thor',
         'Hulk'
     ];
 
@@ -114,7 +118,7 @@ function genOrder() {
     var any = function (data) { return data[Math.floor(Math.random()*data.length)]}
     var name = function () { return any(prefix)+' '+any(item)}
     var price = function (minVal,maxVal) {
-        return randInt(100*minVal,100*maxVal)/100;
+        return randInt(minVal,maxVal);
     }
 
     return {customer: any(customer), item: name(), color: any(color), quantity: any(quantities), price: price(50,500) }

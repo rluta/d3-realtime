@@ -14,7 +14,7 @@
         display: [],
         total: 0,
         counts: d3.map({}),
-        running: true,
+        running: false,
         eb: null
     };
 
@@ -36,15 +36,20 @@
             });
 
             state.eb.registerHandler('votes', function (message) {
-
-                message.id=state.total;
-
-                state.display.push(message);
-                if (state.display.length > config.displaySize) state.display.shift();
-
                 if (message.answer) {
-                    state.counts.set(message.answer, (state.counts.get(message.answer) || 0) + 1);
-                    state.total += 1;
+                    message = [message]
+                }
+                for (var idx in message) {
+                    var vote = message[idx]
+                    state.display.push(vote);
+                    if (state.display.length > config.displaySize) state.display.shift();
+
+                    if (vote.answer) {
+                        vote.id=state.total;
+
+                        state.counts.set(vote.answer, (state.counts.get(vote.answer) || 0) + 1);
+                        state.total += 1;
+                    }
                 }
                 // this should use request animation frame or a setInterval but will wait
                 // for the final demo
@@ -70,8 +75,9 @@
 
     function stop(func) {
         state.running = false;
-        if (state.eb) func();
+        if (state.eb && func) func();
         state.eb.close();
+        state.eb=null;
     }
 
     // charts set up
@@ -108,25 +114,60 @@
     }
 
     // Slide Event handling
-    $(mySection).on('start', function (evt) {
+    $(mySection).on('start', function (evt,args) {
         start();
     });
 
-    $(mySection).on('stop', function (evt) {
+    $(mySection).on('stop', function (evt,args) {
         stop();
     });
 
-    if (window.isGithub()) {
-        $('#vote-example',mySection).hide();
-        $('#popup',mySection).show();
-    } else {
-        $(mySection).on('action', function (evt) {
-            if (state.running)
-                $(mySection).trigger('stop');
-            else
-                $(mySection).trigger('start');
-        });
-        // Start the chart by default
-        $(mySection).trigger('start');
-    }
+    $(mySection).on('update', function (evt,args) {
+        stop();
+    });
+
+    $(mySection).on('twitter', function (evt,args) {
+        if (state.eb) {
+            state.eb.send('twitter',args.query)
+        }
+    });
+
+    $(mySection).on('cheat', function (evt,args) {
+        var rand = 0;
+        for(var i=0; i<state.quizz.answers.length; i++) {
+            rand += Math.random();
+        }
+        var ans = state.quizz.answers[Math.floor(rand)]
+        var vote = {
+            answer: ans,
+            username: 'John Doe'
+        };
+        state.display.push(vote);
+        if (state.display.length > config.displaySize) state.display.shift();
+        state.counts.set(ans, (state.counts.get(ans) || 0) + 1);
+        state.total += 1;
+        updateDashboard();
+    });
+
+    $(mySection).on('reset', function (evt,args) {
+        stop();
+        state = {
+            quizz: null,
+            display: [],
+            total: 0,
+            counts: d3.map({}),
+            running: false,
+            eb: null
+        };
+        updateDashboard();
+    });
+
+    $(mySection).on('action', function () {
+        $('[data-slidepanel]', mySection).click();
+    });
+
+    $('[data-slidepanel]',mySection).slidepanel({
+        orientation: 'bottom',
+        mode: 'overlay' // overlay or push
+    });
 })();

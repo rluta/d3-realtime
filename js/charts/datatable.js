@@ -30,6 +30,9 @@ var DataTable = function (selector,options) {
         var th = thead.selectAll('th').data(colnames,identity)
 
         th.enter().append('th')
+            .attr('class',function (d) {
+                return 'col-'+d}
+        );
         th.text(identity);
         th.exit().remove();
 

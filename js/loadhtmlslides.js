@@ -20,7 +20,7 @@
                             if (
                                 (xhr.status >= 200 && xhr.status < 300) ||
                                 xhr.status === 0 // file protocol yields status code 0 (useful for local debug, mobile applications etc.)
-                                ) {
+                            ) {
                                 section.innerHTML = xhr.responseText;
                                 if (section.getAttribute('data-js') !== null) {
                                     var scriptElement = document.createElement('script');

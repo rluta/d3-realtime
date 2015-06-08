@@ -38,7 +38,7 @@
             var s = parseInt(args.step) || step;
             data = data.concat(genData(s,generator,data[data.length-1].x+1)); // add new step elements
             for (var i=0; i < s; i++) data.shift() // lose the step first old elements
-
+            step = s
         } else {
             var p = args.size || points;
             data = genData(p,generator,start);
@@ -47,15 +47,15 @@
             var duration = parseInt(args.duration);
             chart.options('transition',duration);
         }
+        chart.options('color',args.color || 0);
         chart.update(data);
     });
 
     $(mySection).on('start', function (event, args) {
         if (timerId == null) {
             timerId = setInterval(function () {
-                data.shift();
-                var d = genData(1,generator, data[data.length-1].x+1);
-                data.push(d[0]);
+                for (var i=0; i < step; i++) data.shift() // lose the step first old elements
+                data = data.concat(genData(step,generator,data[data.length-1].x+1)); // add new step elements
                 chart.update(data);
             },args.rate);
         }
