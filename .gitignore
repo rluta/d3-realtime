@@ -19,3 +19,4 @@ test-tmp
 *.class
 bower_components
 node_modules
+twitter.properties
