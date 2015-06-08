@@ -1,16 +1,13 @@
 ## Realtime Visulization in D3.js
  
-This presentation is available in 2 versions :
-
-  * stand-alone, directly on https://rluta.github.io/d3-realtime with some limited functionality
-  * with a local vert.x server, enabling the complete demos
+This presentation is available directly on https://rluta.github.io/d3-realtime
   
 To interact with the different chart slides, use the spacebar to activate the side panels 
 and/or start/stop the interaction.
 
 # Compiling and starting the vert.x server
 
-To check out the full presentation : 
+To use all the features of the presentation, you need to start a vert.x instance of the bundled vertx-voter module
 
   * clone the repository from GitHub
 
@@ -18,18 +15,25 @@ To check out the full presentation :
   git clone https://github.com/rluta/d3-realtime
 ```  
 
-  * build the project with maven
+  * add a twitter.properties file in vertx-voter/src/main/resources containing your API credentials for twitter API
 
-```  
-  mvn package vertx:fatJar
+```
+debug=false
+oauth.consumerKey=<key>
+oauth.consumerSecret=<secret>
+oauth.accessToken=<access>
+oauth.accessTokenSecret=<access secret>
 ```
 
-  * run the server with Java JVM
+  * build and run the project with gradle
 
 ```  
-  java -jar target/d3-realtime-1.0.0-fat.jar
-```  
+  cd vertx-voter && gradle runMod
+```
 
-Once the server is started, the main presentation is available on http://localhost:4242
+Once the server is started : 
 
-The voting companion webapp is available on http://yourcomputerip:8080
+ * The vertx eventbus is available at http://yourip:4242/eventbus 
+ * The voting companion webapp is available on http://yourip:8080
+ * A direct twitter SSE feed can be accessed at http://yourip:7001/stream
+
