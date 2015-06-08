@@ -1,0 +1,8 @@
+{
+  "name": "http-next-gen",
+  "version": "1.0.0",
+  "dependencies": {
+    "reveal.js": "~2.6.1",
+    "reveal-highlight-themes": "~8.3.0"
+  }
+}

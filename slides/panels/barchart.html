@@ -1,0 +1,88 @@
+<form class="form form-group ">
+    <div style="display: flex; flex-flow: row; width: 1250px;">
+        <div style="margin-right: 20px">
+            <div style="margin-bottom: 10px;">
+                <label for="data-size"># datapoints</label><br />
+                <input id="data-size" name="size" type="text" value="20" size="15"/>
+            </div>
+        </div>
+        <div style="margin-right: 20px">
+            <div style="margin-bottom: 10px;">
+                <label for="transition-duration">Transition duration</label><br />
+                <input id="transition-duration" name="duration" type="text" value="500" />
+            </div>
+        </div>
+        <div style="margin-right: 20px">
+            <div style="margin-bottom: 10px;">
+                <label for="data-step">Step</label><br />
+                <input id="data-step" name="step" type="text" value="1" size="10"/>
+            </div>
+        </div>
+        <div style="margin-right: 20px">
+            <div style="margin-bottom: 10px;">
+                <label for="refresh-rate">Refresh rate</label><br />
+                <input id="refresh-rate" name="rate" type="text" value="500" size="15"/>
+            </div>
+        </div>
+        <div style="margin-right: 20px">
+            <div style="margin-bottom: 5px;">
+                <label for="show-color">Color select sets</label>
+                <input style="font-size: 5em" class="checkbox" id="show-color" name="color" type="checkbox" value="1"/>
+            </div>
+        </div>
+        <div style="margin-right: 20px">
+            <div style="margin-bottom: 10px;">
+                <div class="btn btn-primary" id="update-all">Update All</div>
+            </div>
+        </div>
+        <div style="margin-right: 20px">
+            <div style="margin-bottom: 10px;">
+                <div class="btn btn-primary" id="update-step">Insert One</div>
+            </div>
+        </div>
+        <div>
+            <div style="margin-bottom: 10px;">
+                <div class="btn btn-primary" id="auto-refresh">Auto insert</div>
+            </div>
+        </div>
+    </div>
+</form>
+
+<script>
+    $("#update-all").click(function () {
+        var section = Reveal.getCurrentSlide();
+        $(section).trigger('update',{
+            keepOld: false,
+            size: $('#data-size').val(),
+            duration: $('#transition-duration').val(),
+            color: $("#show-color").prop('checked')
+        });
+    });
+
+    $("#update-step").click(function () {
+        var section = Reveal.getCurrentSlide();
+        $(section).trigger('update',{
+            keepOld: true,
+            step: $('#data-step').val(),
+            duration: $('#transition-duration').val(),
+            color: $("#show-color").prop('checked')
+        });
+    });
+
+    $("#auto-refresh").click(function () {
+        var section = Reveal.getCurrentSlide();
+        var rate = $('#refresh-rate').val();
+        var action  = 'start';
+        if ($(this).hasClass('active')) {
+            action = 'stop';
+        }
+        $(section).trigger('update',{
+            keepOld: true,
+            step: $('#data-step').val(),
+            duration: $('#transition-duration').val(),
+            color: $("#show-color").prop('checked')
+        });
+        $(section).trigger(action,{rate: rate});
+        $(this).toggleClass('active')
+    });
+</script>

@@ -1,0 +1,86 @@
+<form class="form form-group ">
+    <div style="display: flex; flex-flow: row; width: 1250px;">
+        <div style="margin-right: 20px">
+            <div style="margin-bottom: 10px;">
+                <label for="fv-generator">Generator</label><br />
+                <select id="fv-generator" name="fv-generator">
+                    <option selected value="VertxVoter">Remote Vertx</option>
+                    <option value="StandaloneVoter">Local Worker</option>
+                </select>
+            </div>
+        </div>
+        <div style="margin-right: 20px">
+            <div style="margin-bottom: 10px;">
+                <label for="fv-url">Remote URL</label><br />
+                <input class="inactive" id="fv-url" name="fv-url" type="text" value="http://localhost:4242/eventbus"/>
+            </div>
+        </div>
+        <!--
+        <div style="margin-right: 20px">
+            <div style="margin-bottom: 10px;">
+                <label for="fv-quizz">Quizz</label><br />
+                <input id="fv-quizz" name="fv-quizz" type="text" value="/quizzdata.json" size="15"/>
+            </div>
+        </div>
+        -->
+        <div style="margin-right: 20px">
+            <div style="margin-bottom: 10px;">
+                <label for="fv-rate">Event Rate (evt/s)</label><br />
+                <input id="fv-rate" name="fv-rate" type="text" value="10" size="15"/>
+            </div>
+        </div>
+        <!--
+        <div style="margin-right: 20px">
+            <div style="margin-bottom: 10px;">
+                <label for="fv-queue">Queue depth</label><br />
+                <input id="fv-queue" name="queue" type="text" value="5000" size="10"/>
+            </div>
+        </div>
+        -->
+        <div style="margin-right: 20px">
+            <div style="margin-bottom: 10px;">
+                <div class="btn btn-primary" id="fv-update">Update</div>
+            </div>
+        </div>
+        <div style="margin-right: 20px">
+            <div style="margin-bottom: 10px;">
+                <div class="btn btn-primary" id="fv-reset">Reset</div>
+            </div>
+        </div>
+        <div>
+            <div style="margin-bottom: 10px;">
+                <div class="btn btn-primary" id="fv-toggle">Generate</div>
+            </div>
+        </div>
+    </div>
+</form>
+
+<script>
+    $("#fv-update").click(function () {
+        var section = Reveal.getCurrentSlide();
+        $(section).trigger('update',{
+            rate: $('#fv-rate').val(),
+//            queue: $('#fv-queue').val(),
+//            quizzUrl: $('#fv-quizz').val(),
+            type: $('#fv-generator').val(),
+            hostUrl: $('#fv-url').val()
+        });
+    });
+
+    $("#fv-toggle").click(function () {
+        var section = Reveal.getCurrentSlide();
+        var action  = 'start';
+
+        if ($(this).hasClass('active')) {
+            action = 'stop';
+        }
+
+        $(section).trigger(action,{rate: $('#vote-rate').val()});
+        $(this).toggleClass('active')
+    });
+
+    $("#fv-reset").click(function () {
+        var section = Reveal.getCurrentSlide();
+        $(section).trigger('reset',{});
+    });
+</script>

@@ -1,0 +1,62 @@
+buildscript {
+
+    repositories {
+        mavenLocal()
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath 'com.darylteo.vertx:vertx-gradle-plugin:0.1.4-SNAPSHOT'
+    }
+}
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+}
+
+apply plugin: 'vertx'
+apply plugin: 'groovy'
+apply plugin: 'idea'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+group = 'com.aptiwan'
+version = '1.0.0'
+
+configurations {
+    archives
+}
+
+artifacts {
+    archives modZip
+}
+
+dependencies {
+    compile 'org.twitter4j:twitter4j-core:4.0.2'
+    compile 'org.twitter4j:twitter4j-stream:4.0.2'
+}
+
+vertx {
+    // Vert.x options using for building the module
+    platform {
+        version '2.1.5'
+        tools '2.0.3-final'
+        lang 'groovy'
+    }
+
+    // mod.json configuration
+    config {
+        main 'App.groovy'
+    }
+
+    // runtime Vert.x properties
+    deployments {
+        mod {
+            platform {
+                version '2.1.5'
+            }
+        }
+    }
+}

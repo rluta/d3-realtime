@@ -1,0 +1,19 @@
+<h2>Refresh code</h2>
+<pre><code class="js"  style="max-height: 650px">
+var timerId = null;
+$(mySection).on('start', function (event, args) {
+    if (timerId === null) {
+        timerId = setInterval(function () {
+            data = refreshData()
+            chart.update(data)
+        },args.rate)
+    }
+})
+
+$(mySection).on('stop', function () {
+    if (timerId !== null) {
+        clearInterval(timerId);
+        timerId = null;
+    }
+})
+</code></pre>

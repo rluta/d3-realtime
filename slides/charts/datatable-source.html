@@ -1,0 +1,25 @@
+<h2>Datatable</h2>
+<pre><code class="lang-js" style="max-height: 650px">
+function update(objectArray) {
+    var colnames = [];
+    if (mydata != null && mydata.length > 0) {
+        colnames = d3.keys(objectArray[0])
+    }
+
+    var th = thead.selectAll('th').data(colnames,identity)
+
+    th.enter().append('th')
+    th.text(identity);
+    th.exit().remove();
+
+    var tr = tbody.selectAll('tr').data(objectArray, opts.id)
+
+    tr.enter().append('tr')
+    tr.exit().transition().duration(200).remove()
+
+    var cells = tr.selectAll('td').data(d3.values)
+    cells.enter().append('td')
+    cells.text(identity);
+    cells.exit().transition().duration(200).remove();
+}
+</code></pre>

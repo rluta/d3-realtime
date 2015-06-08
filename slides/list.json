@@ -1,0 +1,92 @@
+[
+    "title.html",
+    {
+        "filename":"superpower.html",
+        "attr": {
+            "data-background":"img/superpower.jpg"
+        }
+    },
+    {
+        "filename":"jarvis.html",
+        "attr": {
+            "data-background":"img/jarvis.jpg"
+        }
+    },
+    [
+        {
+            "filename":"charts/barchart.html",
+            "attr":{
+                "data-js":"js/slides/barchart.js"
+            }
+        },
+        "charts/barchart-source.html",
+        "charts/barchart-refresh.html"
+    ],
+    [
+        {
+            "filename":"charts/dashboard.html",
+            "attr":{
+                "data-js":"js/slides/dashboard.js"
+            }
+        },
+        "charts/dashboard-source.html",
+        "charts/datatable-source.html",
+        "charts/gauge-source.html"
+    ],
+    "catman.html",
+    "data/pipelines.html",
+    [
+        "data/xhr.html",
+        "data/xhr-limits.html"
+    ],
+    [
+        "data/ws.html",
+        "data/ws-code.html"
+    ],
+    {
+        "filename":"data/vote-inline.html",
+        "attr":{
+            "data-js":"js/slides/vote.js"
+        }
+    },
+    {
+        "filename":"batman.html",
+        "attr": {
+            "data-background":"img/batman.jpg"
+        }
+    },
+    {
+        "filename":"overload.html",
+        "attr": {
+            "data-background":"img/overload.jpg"
+        }
+    },
+    [
+        "optimize/web-workers.html",
+        "optimize/web-workers-code.html"
+    ],
+    "optimize/eventbatching.html",
+    [
+        "optimize/back-pressure.html",
+        "optimize/back-pressure-examples.html"
+    ],
+    {
+        "filename":"optimize/vote-worker.html",
+        "attr":{
+            "data-js":"js/slides/full-vote.js"
+        }
+    },
+    {
+        "filename": "kryptonite.html",
+        "attr": {
+            "data-background":"img/kryptonite.jpg"
+        }
+    },
+    [
+        "optimize/memory-limits.html",
+        "optimize/epochjs.html"
+    ],
+    "mario.html",
+    "final.html",
+    "credits.html"
+]

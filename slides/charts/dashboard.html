@@ -1,0 +1,64 @@
+<style>
+    #gauge-demo g.arc {
+        fill: #fff;
+    }
+
+    #gauge-demo g.pointer {
+        fill: #e85116;
+        stroke: #b64011;
+    }
+
+    #gauge-demo g.label text {
+        text-anchor: middle;
+        font-size: 14px;
+        font-weight: bold;
+        fill: #fff;
+    }
+
+    #gauge-demo g.value text {
+        text-anchor: middle;
+        font-size: 36px;
+        font-weight: bold;
+        fill: #fff;
+    }
+
+    #horizontal-demo svg .axis {
+        font-size: 18px;
+        fill: #fff;
+    }
+
+    #horizontal-demo svg .axis.y {
+        text-anchor: right;
+        font-size: 18px;
+        fill: #fff;
+    }
+
+    #datatable-demo th {
+        color: #ffff4f;
+    }
+    #datatable-demo table {
+        width: 100%;
+    }
+    #datatable-demo th.col-customer {
+        width: 20%;
+    }
+    #datatable-demo th.col-item {
+        width: 40%;
+    }
+    #datatable-demo th.col-color {
+        width: 15%;
+    }
+    #datatable-demo th.col-quantity {
+        width: 15%;
+    }
+    #datatable-demo th.col-price {
+        width: 10%;
+    }
+</style>
+
+<h2>... grows into a dashboard</h2>
+<div>
+    <div id="gauge-demo" class="d3chart gauge" style="float: left;"></div>
+    <div id="horizontal-demo" style="float: right"></div>
+</div>
+<div id="datatable-demo" style="clear: both"></div>

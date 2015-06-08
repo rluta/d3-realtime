@@ -1,0 +1,104 @@
+<form class="form form-group ">
+    <div style="display: flex; flex-flow: row; width: 1250px;">
+        <div style="margin-right: 20px">
+            <div style="margin-bottom: 10px;">
+                <label for="vote-url">Remote URL</label><br />
+                <input class="inactive" id="vote-url" name="vote-url" type="text" value="http://localhost:4242/eventbus"/>
+            </div>
+        </div>
+        <div style="margin-right: 20px">
+            <div style="margin-bottom: 10px;">
+                <label for="vote-quizz">Quizz</label><br />
+                <input id="vote-quizz" name="vote-quizz" type="text" value="heroes" />
+            </div>
+        </div>
+        <div style="margin-right: 20px">
+            <div style="margin-bottom: 10px;">
+                <label for="vote-twitter">Twitter tag</label><br />
+                <input id="vote-twitter" name="twitter" type="text" value="#bestofweb2015" />
+            </div>
+        </div>
+        <!--
+        <div style="margin-right: 20px">
+            <div style="margin-right: 20px">
+                <div style="margin-bottom: 10px;">
+                    <label for="vote-generator">Use Generator</label><br />
+                    <input type="checkbox" id="vote-generator" value="1" name="vote-generator" checked />
+                </div>
+            </div>
+        </div>
+        <div style="margin-right: 20px">
+            <div style="margin-bottom: 10px;">
+                <label for="vote-rate">Generator Rate (event/s)</label><br />
+                <input id="vote-rate" name="vote-rate" type="text" value="10" />
+            </div>
+        </div>
+        <div style="margin-right: 20px">
+            <div style="margin-bottom: 10px;">
+                <div class="btn btn-primary" id="vote-update">Update</div>
+            </div>
+        </div>
+        -->
+        <div style="margin-right: 20px">
+            <div style="margin-bottom: 10px;">
+                <div class="btn btn-primary" id="vote-reset">Reset</div>
+            </div>
+        </div>
+        <div style="margin-right: 20px">
+            <div style="margin-bottom: 10px;">
+                <div class="btn btn-primary" id="vote-toggle">Vote</div>
+            </div>
+        </div>
+        <div>
+            <div style="margin-bottom: 10px;">
+                <div class="btn btn-primary" id="vote-cheat">Cheat</div>
+            </div>
+        </div>
+    </div>
+</form>
+
+<script>
+    $("#vote-reset").click(function () {
+        var section = Reveal.getCurrentSlide();
+        $(section).trigger('reset',{
+ //           rate: $('#vote-rate').val(),
+///            useGenerator: $('#vote-generator').prop('checked'),
+            hostUrl: $('#vote-url').val(),
+            query: $('#vote-twitter').val()
+        });
+    });
+
+    $("#vote-twitter").click(function () {
+        var section = Reveal.getCurrentSlide();
+        $(section).trigger('twitter',{
+            query: $('#vote-twitter').val()
+        });
+    });
+
+    $("#vote-cheat").click(function () {
+        var section = Reveal.getCurrentSlide();
+        $(section).trigger('cheat');
+    });
+
+    $("#vote-toggle").click(function () {
+        var section = Reveal.getCurrentSlide();
+        var action  = 'start';
+
+        if ($(this).hasClass('active')) {
+            action = 'stop';
+        }
+        $(this).toggleClass('active');
+        console.log(action)
+        $(section).trigger(action,{
+//            rate: $('#vote-rate').val(),
+//            useGenerator: $('#vote-generator').prop('checked'),
+            hostUrl: $('#vote-url').val(),
+            query: $('#vote-twitter').val()
+        });
+    });
+
+    $("#vote-stop").click(function () {
+        var section = Reveal.getCurrentSlide();
+        $(section).trigger('stop',{});
+    });
+</script>
